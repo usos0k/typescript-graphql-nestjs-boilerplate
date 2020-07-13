@@ -1,0 +1,57 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint/eslint-plugin"],
+  "parserOptions": {
+    "ecmaVersion": 2019,
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript",
+    "plugin:prettier/recommended",
+    "prettier",
+    "prettier/@typescript-eslint"
+  ],
+  "rules": {
+    "@typescript-eslint/explicit-function-return-type": 0,
+    "@typescript-eslint/indent": 0,
+    "@typescript-eslint/no-empty-interface": 0,
+    "@typescript-eslint/no-use-before-define": 0,
+    "@typescript-eslint/no-var-requires": 0,
+    "import/no-named-as-default": 0,
+    "import/no-unresolved": "error",
+    "import/order": "warn",
+    "jsx-a11y/click-events-have-key-events": 0,
+    "no-console": 1,
+    "no-empty-pattern": 0,
+    "prettier/prettier": "error"
+  },
+  "env": {
+    "es6": true,
+    "node": true
+  },
+  "settings": {
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts"]
+    },
+    "import/resolver": {
+      "node": {
+        "extensions": [".ts"]
+      },
+      "typescript": {
+        "directory": "tsconfig.json",
+        "alwaysTryTypes": true
+      }
+    },
+    "import/ignore": ["inversify"],
+    "typescript": {
+      "alwaysTryTypes": true
+    }
+  }
+}

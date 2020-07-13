@@ -1,0 +1,11 @@
+{
+  "watch": ["src/**/*.ts", "src/**/*.graphql"],
+  "ext": "ts,graphql",
+  "ignore": ["node_modules/**"],
+  "env": {
+    "DEBUG": "BoilerPlate:*",
+    "RUN_MODE": "local",
+    "NODE_ENV": "local"
+  },
+  "exec": "ts-node ./src/main.ts"
+}
