@@ -8,6 +8,7 @@ export const NODE_ENV: string = process.env.NODE_ENV || 'development';
 // application
 export const DOMAIN: string = process.env.DOMAIN || 'localhost';
 export const PORT: number = +`${process.env.PORT}` || 3000;
+export const RATE_LIMIT_MAX: number = +`${process.env.RATE_LIMIT_MAX}` || 10000;
 
 // mongodb
 export const MONGO_URL: string = process.env.MONGO_URL || 'mongodb://localhost:27017';
@@ -24,3 +25,6 @@ export const RESETPASS_TOKEN_SECRET: string = process.env.RESETPASS_TOKEN_SECRET
 
 // bcrypt
 export const BCRYPT_SALT: number = +`${process.env.BCRYPT_SALT}` || 10;
+
+// ETC
+export const LOG_PRIMARY_COLOR: string = process.env.PRIMARY_COLOR || '#87e8de';
