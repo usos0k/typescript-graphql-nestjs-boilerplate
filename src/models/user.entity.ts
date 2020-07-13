@@ -18,6 +18,10 @@ export class User {
   @Column()
   password!: string;
 
+  @Expose()
+  @Column()
+  isVerified: boolean;
+
   constructor(user: Partial<User>) {
     Object.assign(
       this,
@@ -27,5 +31,6 @@ export class User {
     );
 
     this._id = user._id || uuidV1();
+    this.isVerified = user.isVerified || false;
   }
 }
