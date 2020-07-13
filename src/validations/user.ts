@@ -20,7 +20,7 @@ const password = [
   },
 ];
 
-const createUserValidation: ValidationSchema = {
+export const createUserValidation: ValidationSchema = {
   name: 'createUserRegister', // this is required, and must be unique
   properties: {
     email,

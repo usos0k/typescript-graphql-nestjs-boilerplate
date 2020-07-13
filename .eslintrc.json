@@ -1,7 +1,6 @@
 {
-  "root": true,
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint/eslint-plugin"],
+  "plugins": ["@typescript-eslint/eslint-plugin", "prettier", "import"],
   "parserOptions": {
     "ecmaVersion": 2019,
     "sourceType": "module",
@@ -41,9 +40,7 @@
       "@typescript-eslint/parser": [".ts"]
     },
     "import/resolver": {
-      "node": {
-        "extensions": [".ts"]
-      },
+      "node": { "extensions": [".ts"] },
       "typescript": {
         "directory": "tsconfig.json",
         "alwaysTryTypes": true

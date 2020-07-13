@@ -3,7 +3,7 @@
   "buildOnSave": false,
   "compilerOptions": {
     "allowJs": true,
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "allowSyntheticDefaultImports": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
@@ -29,7 +29,10 @@
     "target": "es5",
     "module": "commonjs",
     "outDir": "./build",
-    "typeRoots": ["./node_modules/@types", "./src/typings"]
+    "typeRoots": ["./node_modules/@types", "./src/typings"],
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist/**", "build/**"]
