@@ -10,9 +10,8 @@ export const DOMAIN: string = process.env.DOMAIN || 'localhost';
 export const PORT: number = +`${process.env.PORT}` || 3000;
 export const RATE_LIMIT_MAX: number = +`${process.env.RATE_LIMIT_MAX}` || 10000;
 
-// mongodb
-export const MONGO_URL: string = process.env.MONGO_URL || 'mongodb://localhost:27017';
-export const MONGO_DB: string = process.env.MONGO_DB || '';
+// DB
+export const MYSQL_DB: string = process.env.MYSQL_DB || '';
 
 // jsonwebtoken
 export const ISSUER: string = process.env.ISSUER || 'SKELETON';
