@@ -9,13 +9,12 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       type: 'mysql',
       host: 'localhost',
       port: 3306,
-      username: 'root',
-      password: 'root',
+      username: 'test',
+      password: 'test',
       database: 'test',
       synchronize: true,
       autoLoadEntities: true,
       keepConnectionAlive: true,
-      logging: true,
       entities: getMetadataArgsStorage().tables.map((tbl) => tbl.target),
     };
     return options;

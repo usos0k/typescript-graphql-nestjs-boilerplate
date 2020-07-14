@@ -1,36 +1,28 @@
-import { Expose, plainToClass } from 'class-transformer';
-import { Column, Entity, ObjectIdColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { v1 as uuidV1 } from 'uuid';
 
 @Entity({
   name: 'users',
 })
 export class User {
-  @Expose()
-  @ObjectIdColumn()
-  _id: string;
+  @PrimaryGeneratedColumn()
+  _id!: string;
 
-  @Expose()
   @Column()
   email!: string;
 
-  @Expose()
   @Column()
   password!: string;
 
-  @Expose()
+  @Column({ default: false })
+  isVerified!: boolean;
+
   @Column()
-  isVerified: boolean;
+  name!: string;
 
   constructor(user: Partial<User>) {
-    Object.assign(
-      this,
-      plainToClass(User, user, {
-        excludeExtraneousValues: true,
-      }),
-    );
-
-    this._id = user._id || uuidV1();
-    this.isVerified = user.isVerified || false;
+    if (user) {
+      Object.assign(this, user);
+    }
   }
 }

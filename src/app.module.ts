@@ -8,6 +8,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AppService } from './app.service';
 import { TypeOrmConfigService } from './config';
+import { UsersModule } from './modules';
+import * as Resolvers from './resolvers';
 
 @Module({
   imports: [
@@ -21,6 +23,7 @@ import { TypeOrmConfigService } from './config';
     TypeOrmModule.forRootAsync({
       useClass: TypeOrmConfigService,
     }),
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

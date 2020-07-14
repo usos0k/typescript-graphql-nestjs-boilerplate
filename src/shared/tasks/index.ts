@@ -3,7 +3,7 @@ import { CronJob } from 'cron';
 
 export const cron = (): void => {
   const job = new CronJob({
-    cronTime: '0 0 0 * *',
+    cronTime: '0 0 0 * * *',
     onTick: () => {
       Logger.debug('cron job completed', 'Cron', false);
     },
