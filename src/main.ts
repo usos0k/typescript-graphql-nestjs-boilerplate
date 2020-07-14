@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+import '@/validations';
 
 import { AppModule } from '@/app.module';
 import { PORT, RATE_LIMIT_MAX } from '@/environments';
