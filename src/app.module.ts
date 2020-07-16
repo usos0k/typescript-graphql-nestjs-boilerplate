@@ -8,8 +8,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AppService } from './app.service';
 import { TypeOrmConfigService } from './config';
-import { UsersModule } from './modules';
-import * as Resolvers from './resolvers';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [

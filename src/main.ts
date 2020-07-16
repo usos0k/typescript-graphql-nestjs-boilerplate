@@ -71,7 +71,7 @@ async function bootstrap() {
       next();
     });
 
-    await app.listen(3000);
+    await app.listen(PORT);
     Logger.log(`Server is listening on port ${PORT}`);
   } catch (error) {
     Logger.error(`Error starting server, ${error}`);
