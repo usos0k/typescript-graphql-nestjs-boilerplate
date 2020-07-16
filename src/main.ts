@@ -2,6 +2,11 @@ import 'reflect-metadata';
 import '@/validations';
 
 import { AppModule } from '@/app.module';
+import {
+  LoggerMiddleware,
+  LoggingInterceptor,
+  TimeoutInterceptor,
+} from '@/common';
 import { PORT, RATE_LIMIT_MAX } from '@/environments';
 import { cron } from '@/shared';
 import { Logger, ValidationPipe } from '@nestjs/common';
@@ -11,12 +16,6 @@ import compression from 'compression';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import { getConnection } from 'typeorm';
-
-import {
-  LoggerMiddleware,
-  LoggingInterceptor,
-  TimeoutInterceptor,
-} from './common';
 
 async function bootstrap() {
   try {

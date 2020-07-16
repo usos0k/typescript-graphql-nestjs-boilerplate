@@ -1,14 +1,13 @@
 import { join } from 'path';
 
 import { AppController } from '@/app.controller';
+import { AppService } from '@/app.service';
+import { TypeOrmConfigService } from '@/config';
+import { UsersModule } from '@/modules';
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
-import { AppService } from './app.service';
-import { TypeOrmConfigService } from './config';
-import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [

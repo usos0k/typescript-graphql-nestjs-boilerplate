@@ -1,5 +1,10 @@
-import { ACCESS_TOKEN_SECRET, EMAIL_TOKEN_SECRET, ISSUER, RESETPASS_TOKEN_SECRET } from '@/environments';
-import { User } from '@/models';
+import {
+  ACCESS_TOKEN_SECRET,
+  EMAIL_TOKEN_SECRET,
+  ISSUER,
+  RESETPASS_TOKEN_SECRET,
+} from '@/environments';
+import { UserEntity } from '@/modules/users/entities/user.entity';
 import { AuthenticationError, ForbiddenError } from 'apollo-server-core';
 import { sign, verify } from 'jsonwebtoken';
 import { getMongoRepository } from 'typeorm';
@@ -27,13 +32,25 @@ const common = {
   },
 };
 
-export const generateToken = ({ user, type }: { user: User; type: TokenType }): Promise<string> =>
-  sign({ _id: user._id }, common[type].privateKey, {
+export const generateToken = ({
+  user,
+  type,
+}: {
+  user: UserEntity;
+  type: TokenType;
+}): Promise<string> =>
+  sign({ _id: user.id }, common[type].privateKey, {
     issuer: ISSUER,
     expiresIn: common[type].signOptions.expiresIn,
   });
 
-export const verifyToken = async ({ token, type }: { token: string; type: TokenType }): Promise<User> => {
+export const verifyToken = async ({
+  token,
+  type,
+}: {
+  token: string;
+  type: TokenType;
+}): Promise<UserEntity> => {
   let user;
 
   // Get user from database
@@ -42,7 +59,7 @@ export const verifyToken = async ({ token, type }: { token: string; type: TokenT
       throw new AuthenticationError('Authentication token is invalid.');
     }
 
-    user = await getMongoRepository(User).findOne({ _id: data._id });
+    user = await getMongoRepository(UserEntity).findOne({ id: data.id });
   });
 
   if (type === 'emailToken') {
