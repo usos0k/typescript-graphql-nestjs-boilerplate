@@ -12,7 +12,11 @@ import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import { getConnection } from 'typeorm';
 
-import { LoggerMiddleware, LoggingInterceptor, TimeoutInterceptor } from './common';
+import {
+  LoggerMiddleware,
+  LoggingInterceptor,
+  TimeoutInterceptor,
+} from './common';
 
 async function bootstrap() {
   try {
@@ -49,7 +53,8 @@ async function bootstrap() {
       rateLimit({
         windowMs: 1000 * 60 * 60, // 1 hour
         max: RATE_LIMIT_MAX,
-        message: 'Too many request created from this IP, please try again later',
+        message:
+          'Too many request created from this IP, please try again later',
       }),
     );
     app.use(LoggerMiddleware);
