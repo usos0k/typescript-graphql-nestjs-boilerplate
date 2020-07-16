@@ -1,6 +1,5 @@
 {
   "plugins": ["./node_modules/prettier-plugin-import-sort/src"],
   "singleQuote": true,
-  "trailingComma": "all",
-  "printWidth": 120
+  "trailingComma": "all"
 }
