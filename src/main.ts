@@ -7,7 +7,7 @@ import {
   TimeoutInterceptor,
 } from '@/common';
 import { PORT, RATE_LIMIT_MAX } from '@/environments';
-import { cron } from '@/shared';
+import { cron } from '@/utils';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import bodyParser from 'body-parser';
