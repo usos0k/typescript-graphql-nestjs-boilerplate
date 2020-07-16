@@ -1,0 +1,67 @@
+type User {
+  id: ID!
+  email: String!
+  name: String!
+}
+
+# An edge for the User type
+type UserEdge {
+  node: User!
+  cursor: String!
+}
+
+# Metadata for the current pagination
+type PageInfo {
+  hasNextPage: Boolean!
+  endCursor: String
+  hasPreviousPage: Boolean!
+  startCursor: String
+}
+
+# The connection, aka the root type of the pagination.
+# https://relay.dev/graphql/connections.htm
+type UsersConnection {
+  edges: [UserEdge]
+  pageInfo: PageInfo
+  totalCount: Int
+}
+
+# Pagination input
+input PaginationInput {
+  first: Int
+  last: Int
+  after: String
+  before: String
+
+  cursorAt: PaginationCursorAt
+}
+
+enum PaginationCursorAt {
+  ID
+  CREATED_AT
+}
+
+input FindUserInput {
+  _id: ID
+  email: String
+}
+
+input CreateUserInput {
+  email: String!
+  password: String!
+  name: String!
+}
+
+# input FindUsersFilterInput {
+
+# }
+
+type Query {
+  user(input: FindUserInput): User
+  # users(pagination: PaginationInput, filters: FindUsersFilterInput): UsersConnection
+  users(pagination: PaginationInput): UsersConnection
+}
+
+type Mutation {
+  createUser(input: CreateUserInput!): User
+}
