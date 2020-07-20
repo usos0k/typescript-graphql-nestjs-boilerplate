@@ -1,4 +1,3 @@
-import { LOG_PRIMARY_COLOR } from '@/environments';
 import {
   CallHandler,
   ExecutionContext,
@@ -6,35 +5,31 @@ import {
   Logger,
   NestInterceptor,
 } from '@nestjs/common';
-import chalk from 'chalk';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    if (context.getArgs()[3]) {
-      const parentType = context.getArgs()[3]['parentType'];
-      const fieldName = chalk
-        .hex(LOG_PRIMARY_COLOR!)
-        .bold(`${context.getArgs()[3]['fieldName']}`);
+    const req = context.switchToHttp().getRequest();
+
+    if (req) {
+      const { method, url } = req;
 
       return next.handle().pipe(
         tap(() => {
-          Logger.debug(`${parentType} >> ${fieldName}`, 'GraphQL');
+          Logger.log(`${method} ${url}`, context.getClass().name);
         }),
       );
     } else {
-      const parentType = chalk
-        .hex(LOG_PRIMARY_COLOR!)
-        .bold(`${context.getArgs()[0].route.path}`);
-      const fieldName = chalk
-        .hex(LOG_PRIMARY_COLOR!)
-        .bold(`${context.getArgs()[0].route.stack[0].method}`);
+      const method = context.getArgs()[2].req.method || null;
+      const url = context.getArgs()[2].req.url || null;
+      const operation = context.getArgs()[3].operation.operation || null;
+      const fieldName = context.getArgs()[3].fieldName || null;
 
       return next.handle().pipe(
         tap(() => {
-          Logger.debug(`${parentType} >> ${fieldName}`, 'GraphQL');
+          Logger.log(`${method} ${url} ${operation} ${fieldName}`);
         }),
       );
     }

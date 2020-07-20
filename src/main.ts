@@ -2,6 +2,7 @@ import 'reflect-metadata';
 
 import { AppModule } from '@/app.module';
 import {
+  ErrorsInterceptor,
   LoggerMiddleware,
   LoggingInterceptor,
   TimeoutInterceptor,
@@ -59,6 +60,7 @@ async function bootstrap() {
 
     // Interceptors
     app.useGlobalInterceptors(new LoggingInterceptor());
+    app.useGlobalInterceptors(new ErrorsInterceptor());
     app.useGlobalInterceptors(new TimeoutInterceptor());
 
     // Global Nest Setup
