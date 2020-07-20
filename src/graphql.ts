@@ -20,7 +20,7 @@ export interface PaginationInput {
 }
 
 export interface FindUserInput {
-    _id?: string;
+    id?: string;
     email?: string;
 }
 
@@ -30,9 +30,20 @@ export interface CreateUserInput {
     name: string;
 }
 
-export interface AuthInput {
-    email: string;
-    password: string;
+export interface Auth {
+    user?: User;
+    token?: string;
+}
+
+export interface IQuery {
+    whoami(): User | Promise<User>;
+    user(input?: FindUserInput): User | Promise<User>;
+    users(pagination?: PaginationInput): UsersConnection | Promise<UsersConnection>;
+}
+
+export interface IMutation {
+    login(email?: string, password?: string): Auth | Promise<Auth>;
+    createUser(input: CreateUserInput): User | Promise<User>;
 }
 
 export interface User {
@@ -57,20 +68,4 @@ export interface UsersConnection {
     edges?: UserEdge[];
     pageInfo?: PageInfo;
     totalCount?: number;
-}
-
-export interface Auth {
-    user: User;
-    token: string;
-}
-
-export interface IQuery {
-    user(input?: FindUserInput): User | Promise<User>;
-    users(pagination?: PaginationInput): UsersConnection | Promise<UsersConnection>;
-    whoami(): User | Promise<User>;
-}
-
-export interface IMutation {
-    createUser(input: CreateUserInput): User | Promise<User>;
-    login(input: AuthInput): Auth | Promise<Auth>;
 }

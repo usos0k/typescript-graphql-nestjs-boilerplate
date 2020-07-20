@@ -42,7 +42,7 @@ enum PaginationCursorAt {
 }
 
 input FindUserInput {
-  _id: ID
+  id: ID
   email: String
 }
 
@@ -52,25 +52,12 @@ input CreateUserInput {
   name: String!
 }
 
-type Auth {
-  user: User!
-  token: String!
-}
-
-input AuthInput {
-  email: String!
-  password: String!
-}
-
 type Query {
   user(input: FindUserInput): User
   # users(pagination: PaginationInput, filters: FindUsersFilterInput): UsersConnection
   users(pagination: PaginationInput): UsersConnection
-  whoami: User
 }
 
 type Mutation {
   createUser(input: CreateUserInput!): User
-
-  login(input: AuthInput!): Auth
 }

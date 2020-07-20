@@ -2,12 +2,18 @@ import { generateToken } from '@/auth';
 import { BCRYPT_SALT } from '@/environments';
 import bcrypt from 'bcrypt';
 import { IsBoolean, IsEmail, IsNotEmpty, Length } from 'class-validator';
-import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BaseEntity,
+  BeforeInsert,
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 import { UserRO } from '../user.interface';
 
 @Entity('users')
-export class UserEntity {
+export class UserEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   readonly id!: number;
 
@@ -52,7 +58,7 @@ export class UserEntity {
 
   private get token(): string {
     return generateToken({
-      user: this,
+      id: `${this.id}`,
       type: 'accessToken',
     });
   }

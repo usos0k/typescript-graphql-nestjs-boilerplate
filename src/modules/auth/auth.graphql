@@ -1,0 +1,14 @@
+# import User from '../users/users.graphqls'
+
+type Auth {
+  user: User
+  token: String
+}
+
+type Query {
+  whoami: User
+}
+
+type Mutation {
+  login(email: String, password: String): Auth
+}

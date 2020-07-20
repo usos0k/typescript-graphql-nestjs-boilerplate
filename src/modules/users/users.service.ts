@@ -13,10 +13,13 @@ import { UserRO } from './user.interface';
 export class UsersService {
   constructor(private readonly userRepository: UserRepository) {}
 
-  async findUser(query: FindUserDto): Promise<UserEntity | undefined> {
-    return await this.userRepository.findOne({
+  async findUser(query: FindUserDto): Promise<UserEntity> {
+    const user = await this.userRepository.findOne({
       where: query,
     });
+
+    if (!user) return null;
+    return user;
   }
 
   async findUsers({

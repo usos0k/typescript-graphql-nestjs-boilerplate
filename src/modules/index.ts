@@ -1,3 +1,4 @@
+import AuthModule from './auth';
 import UsersModule from './users';
 
-export { UsersModule };
+export { UsersModule, AuthModule };

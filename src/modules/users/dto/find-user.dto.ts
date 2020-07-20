@@ -1,7 +1,7 @@
 import { FindUserInput } from '@/graphql';
 
 export class FindUserDto implements FindUserInput {
-  _id?: string;
+  id?: string;
   email?: string;
 
   constructor(findUserInput: FindUserInput) {
