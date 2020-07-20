@@ -30,6 +30,11 @@ export interface CreateUserInput {
     name: string;
 }
 
+export interface AuthInput {
+    email: string;
+    password: string;
+}
+
 export interface User {
     id: string;
     email: string;
@@ -54,11 +59,18 @@ export interface UsersConnection {
     totalCount?: number;
 }
 
+export interface Auth {
+    user: User;
+    token: string;
+}
+
 export interface IQuery {
     user(input?: FindUserInput): User | Promise<User>;
     users(pagination?: PaginationInput): UsersConnection | Promise<UsersConnection>;
+    whoami(): User | Promise<User>;
 }
 
 export interface IMutation {
     createUser(input: CreateUserInput): User | Promise<User>;
+    login(input: AuthInput): Auth | Promise<Auth>;
 }
