@@ -38,7 +38,7 @@ export const generateToken = ({
 }: {
   user: UserEntity;
   type: TokenType;
-}): Promise<string> =>
+}): string =>
   sign({ _id: user.id }, common[type].privateKey, {
     issuer: ISSUER,
     expiresIn: common[type].signOptions.expiresIn,
