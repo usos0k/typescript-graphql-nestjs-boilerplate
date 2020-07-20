@@ -1,5 +1,6 @@
 import { CURSOR_AT_MAP } from '@/config';
 import {
+  Auth,
   FindUserInput,
   PageInfo,
   PaginationInput,
@@ -10,6 +11,7 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { CreateUserDto } from './dto/create-user.dto';
 import { FindUserDto } from './dto/find-user.dto';
 import { FindUsersPaginationDto } from './dto/find-users.dto';
+import { LoginDto } from './dto/login.dto';
 import { UserEntity } from './entities/user.entity';
 import { UsersService } from './users.service';
 
@@ -68,5 +70,15 @@ export class UsersResolver {
   @Mutation('createUser')
   async createUser(@Args('input') data: CreateUserDto): Promise<UserEntity> {
     return this.usersService.register(data);
+  }
+
+  @Mutation('login')
+  async login(@Args('input') data: LoginDto): Promise<Auth> {
+    const user = await this.usersService.login(data);
+
+    return {
+      user,
+      token: user.token!,
+    };
   }
 }

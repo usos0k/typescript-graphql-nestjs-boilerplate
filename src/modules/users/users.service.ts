@@ -4,8 +4,10 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { FindUserDto } from './dto/find-user.dto';
 import { FindUsersPaginationDto } from './dto/find-users.dto';
+import { LoginDto } from './dto/login.dto';
 import { UserEntity } from './entities/user.entity';
 import { UserRepository } from './repositories/user.repository';
+import { UserRO } from './user.interface';
 
 @Injectable()
 export class UsersService {
@@ -65,5 +67,18 @@ export class UsersService {
     user = await this.userRepository.create(data);
     await this.userRepository.save(user);
     return user;
+  }
+
+  async login(data: LoginDto): Promise<UserRO> {
+    const { email, password } = data;
+    const user = await this.userRepository.findOne({ where: { email } });
+
+    if (!user || !(await user.comparePassword(password))) {
+      throw new HttpException(
+        'Invalid email or password',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    return user.toResponseObject(true);
   }
 }
