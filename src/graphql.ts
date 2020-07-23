@@ -6,7 +6,7 @@
 
 /* tslint:disable */
 /* eslint-disable */
-export enum PaginationCursorAt {
+export enum UsersPaginationCursorAt {
     ID = "ID",
     CREATED_AT = "CREATED_AT"
 }
@@ -16,7 +16,6 @@ export interface PaginationInput {
     last?: number;
     after?: string;
     before?: string;
-    cursorAt?: PaginationCursorAt;
 }
 
 export interface FindUserInput {
@@ -30,6 +29,13 @@ export interface CreateUserInput {
     name: string;
 }
 
+export interface PageInfo {
+    hasNextPage: boolean;
+    endCursor?: string;
+    hasPreviousPage: boolean;
+    startCursor?: string;
+}
+
 export interface Auth {
     user?: User;
     token?: string;
@@ -38,7 +44,7 @@ export interface Auth {
 export interface IQuery {
     whoami(): User | Promise<User>;
     user(input?: FindUserInput): User | Promise<User>;
-    users(pagination?: PaginationInput): UsersConnection | Promise<UsersConnection>;
+    users(pagination?: PaginationInput, filters?: UsersPaginationCursorAt): UsersConnection | Promise<UsersConnection>;
 }
 
 export interface IMutation {
@@ -55,13 +61,6 @@ export interface User {
 export interface UserEdge {
     node: User;
     cursor: string;
-}
-
-export interface PageInfo {
-    hasNextPage: boolean;
-    endCursor?: string;
-    hasPreviousPage: boolean;
-    startCursor?: string;
 }
 
 export interface UsersConnection {

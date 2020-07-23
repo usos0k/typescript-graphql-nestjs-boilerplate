@@ -1,10 +1,11 @@
 import { FindUserInput } from '@/graphql';
+import { ArgsType, Field } from '@nestjs/graphql';
 
+@ArgsType()
 export class FindUserDto implements FindUserInput {
+  @Field()
   id?: string;
-  email?: string;
 
-  constructor(findUserInput: FindUserInput) {
-    Object.assign(this, findUserInput);
-  }
+  @Field()
+  email?: string;
 }

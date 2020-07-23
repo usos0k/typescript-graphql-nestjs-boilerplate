@@ -2,7 +2,7 @@ import { Auth } from '@/graphql';
 import { UseGuards } from '@nestjs/common';
 import { Mutation, Query, Resolver } from '@nestjs/graphql';
 
-import { UserRO } from '../users/user.interface';
+import { UserRO } from '../users/interfaces/user.interface';
 import { CurrentUser } from './auth.decorator';
 import { GqlAuthJwtGuard, GqlAuthLocalGuard } from './guards';
 

@@ -1,0 +1,14 @@
+# Metadata for the current pagination
+type PageInfo {
+  hasNextPage: Boolean!
+  endCursor: String
+  hasPreviousPage: Boolean!
+  startCursor: String
+}
+
+input PaginationInput {
+  first: Int
+  last: Int
+  after: String
+  before: String
+}

@@ -10,7 +10,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-import { UserRO } from '../user.interface';
+import { UserRO } from '../interfaces';
 
 @Entity('users')
 export class UserEntity extends BaseEntity {
@@ -44,14 +44,13 @@ export class UserEntity extends BaseEntity {
   }
 
   toResponseObject(showToken = true): UserRO {
-    const { id, email, name, token } = this;
     const responseObject: UserRO = {
-      id: `${id}`,
-      email,
-      name,
+      ...this,
+      id: `${this.id}`,
+      token: undefined,
     };
 
-    if (showToken) responseObject.token = token;
+    if (showToken) responseObject.token = this.token;
 
     return responseObject;
   }

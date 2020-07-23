@@ -1,27 +1,23 @@
-import { PaginationCursorAt, PaginationInput } from '@/graphql';
+import { PaginationInput } from '@/graphql';
+import { ArgsType, Field } from '@nestjs/graphql';
 
+@ArgsType()
 export class FindUsersPaginationDto implements PaginationInput {
+  @Field()
   first?: number;
+
+  @Field()
   last?: number;
+
+  @Field()
   after?: string;
+
+  @Field()
   before?: string;
+}
 
-  cursorAt?: PaginationCursorAt;
-
-  constructor(paginationArgs: PaginationInput) {
-    const { first, last } = paginationArgs;
-    if (first && last) {
-      throw new Error(
-        "Passing both 'first' and 'last' to paginate is not supported",
-      );
-    }
-
-    Object.assign(this, paginationArgs);
-  }
-
-  get convertedCursorAt(): string {
-    if (this.cursorAt === PaginationCursorAt.ID) return 'id';
-    if (this.cursorAt === PaginationCursorAt.CREATED_AT) return 'created_at';
-    return 'id';
-  }
+@ArgsType()
+export class FindUsersCursorAtDto {
+  @Field()
+  at: string;
 }

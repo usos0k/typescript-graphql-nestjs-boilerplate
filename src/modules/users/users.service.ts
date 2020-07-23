@@ -1,12 +1,14 @@
-import { MAX_QUERY_SIZE } from '@/environments';
+import { connectionPaginationQueryBuilder } from '@/utils';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 
-import { CreateUserDto } from './dto/create-user.dto';
-import { FindUserDto } from './dto/find-user.dto';
-import { FindUsersPaginationDto } from './dto/find-users.dto';
-import { UserEntity } from './entities/user.entity';
-import { UserRepository } from './repositories/user.repository';
-import { UserRO } from './user.interface';
+import {
+  CreateUserDto,
+  FindUserDto,
+  FindUsersCursorAtDto,
+  FindUsersPaginationDto,
+} from './dto';
+import { UserEntity } from './entities';
+import { UserRepository } from './repositories';
 
 @Injectable()
 export class UsersService {
@@ -23,36 +25,16 @@ export class UsersService {
 
   async findUsers({
     pagination,
+    cursor,
   }: {
     pagination: FindUsersPaginationDto;
+    cursor: FindUsersCursorAtDto;
   }): Promise<{ users: Array<UserEntity>; total: number }> {
-    const { first, last, after, before, convertedCursorAt } = pagination;
-
-    let queryBuilder = this.userRepository
-      .createQueryBuilder('user')
-      .orderBy(convertedCursorAt, 'DESC');
-
-    if (after) {
-      // queryBuilder = queryBuilder.where(`user.${convertedCursorAt} `);
-      queryBuilder = queryBuilder.andWhere(
-        `user.${convertedCursorAt} < ${after}`,
-      );
-    }
-    if (before) {
-      queryBuilder = queryBuilder.andWhere(
-        `user.${convertedCursorAt} > ${before}`,
-      );
-    }
-    if (first) {
-      queryBuilder.limit(first > MAX_QUERY_SIZE ? MAX_QUERY_SIZE : first);
-    } else if (last) {
-      queryBuilder
-        .orderBy('ASC')
-        .limit(last > MAX_QUERY_SIZE ? MAX_QUERY_SIZE : last)
-        .orderBy('DESC');
-    } else {
-      queryBuilder.limit(MAX_QUERY_SIZE);
-    }
+    const queryBuilder = connectionPaginationQueryBuilder<UserEntity>({
+      pagination,
+      cursorAt: cursor.at,
+      repository: this.userRepository,
+    });
 
     const [users, total] = await queryBuilder.getManyAndCount();
     return { users, total };
