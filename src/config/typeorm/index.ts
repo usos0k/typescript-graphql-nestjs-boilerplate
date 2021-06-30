@@ -1,24 +1,16 @@
-import {
-  MYSQL_DB,
-  MYSQL_HOST,
-  MYSQL_PASSWORD,
-  MYSQL_PORT,
-  MYSQL_USERNAME,
-} from '@/environments';
 import { Injectable } from '@nestjs/common';
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 import { getMetadataArgsStorage } from 'typeorm';
+import config from '../../config.orm';
+
 
 @Injectable()
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
-  createTypeOrmOptions(): TypeOrmModuleOptions {
-    const options: TypeOrmModuleOptions = {
+
+  createTypeOrmOptions(): Promise<TypeOrmModuleOptions> {
+    const options = {
+      ...config,
       type: 'mysql',
-      host: MYSQL_HOST,
-      port: MYSQL_PORT,
-      username: MYSQL_USERNAME,
-      password: MYSQL_PASSWORD,
-      database: MYSQL_DB,
       synchronize: true,
       autoLoadEntities: true,
       keepConnectionAlive: true,
@@ -26,4 +18,5 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
     };
     return options;
   }
+
 }

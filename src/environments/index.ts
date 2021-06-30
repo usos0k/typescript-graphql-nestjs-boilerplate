@@ -13,8 +13,15 @@ dotenv.config({ path: `.env.${env}` });
 export const NODE_ENV: string = process.env.NODE_ENV || 'development';
 
 // application
+export const HTTP: string = process.env.HTTP || 'http';
+export const GRAPHQL_DEPTH_LIMIT: number =
+  +process.env.GRAPHQL_DEPTH_LIMIT || 10;
+export const PRIMARY_COLOR: string = process.env.PRIMARY_COLOR || '#87e8de';
 export const DOMAIN: string = process.env.DOMAIN || 'localhost';
-export const PORT: number = +`${process.env.PORT}` || 3000;
+export const PORT: number = +process.env.PORT || 3000;
+export const END_POINT: string = process.env.END_POINT || 'graphql';
+export const FE_URL: string = process.env.FE_URL || 'xxx';
+
 export const RATE_LIMIT_MAX: number = +`${process.env.RATE_LIMIT_MAX}` || 10000;
 
 // DB

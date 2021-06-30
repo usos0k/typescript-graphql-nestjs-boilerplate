@@ -7,12 +7,18 @@ import {
   LoggingInterceptor,
   TimeoutInterceptor,
 } from '@/common';
-import { PORT, RATE_LIMIT_MAX } from '@/environments';
+import {   DOMAIN,
+  END_POINT,
+  PORT,
+  PRIMARY_COLOR,
+  RATE_LIMIT_MAX, } from '@/environments';
 import { cron } from '@/utils';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import bodyParser from 'body-parser';
+import chalk from 'chalk';
 import compression from 'compression';
+import cors from 'cors';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import { getConnection } from 'typeorm';
@@ -76,10 +82,18 @@ async function bootstrap() {
       next();
     });
 
+    app.use(cors());
+
     await app.listen(PORT);
-    Logger.log(`Server is listening on port ${PORT}`);
+    Logger.log(
+      `🚀  Server ready at http://${DOMAIN!}:${chalk
+        .hex(PRIMARY_COLOR!)
+        .bold(`${PORT!}`)}/${END_POINT!}`,
+      'Bootstrap',
+      false,
+    );
   } catch (error) {
-    Logger.error(`Error starting server, ${error}`);
+    Logger.error(`❌  Error starting server, ${error}`, '', 'Bootstrap', false);
     process.exit();
   }
 }
