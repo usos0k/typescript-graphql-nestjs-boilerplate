@@ -1,52 +1,62 @@
 type User {
-  _id: Int!
-  isDeleted: Boolean!
-  createdAt: Date!
+    _id: Int!
+    isDeleted: Boolean!
+    title: String!
+    createdAt : Date!
+    updatedAt : Date!
+    deletedAt : Date!
 }
 
 input FindUserInput {
-  _id: ID
+    _id: ID
 }
 
 input FindUsersInput {
-  title: String
+    title: String
 }
 
 input CreateUserInput {
-  title: String!
+    title: String!
 }
 
 input UpdateUserInput {
-  isDeleted: Boolean
-  title: String
+    isDeleted: Boolean
+    title: String
 }
 
 type Query {
-  user(input: FindUserInput): User
-  users(
-    pagination: PaginationInput
-    cursorAt: PaginationCursorAt
-  ): UsersConnection
+    user(input: FindUserInput): User
+    users(
+        pagination: PaginationInput
+        cursorAt: PaginationCursorAt
+    ): UsersConnection
+
 }
 
 type Mutation {
-  createUser(input: CreateUserInput!): User
 
-  updateUser(_id: ID!, input: UpdateUserInput!): User
+    createUser(
+        input: CreateUserInput!
+    ): User
 
-  deleteUser(input: FindUserInput!): Boolean
+    updateUser(
+        _id: ID!
+        input: UpdateUserInput!
+    ): User
+
+    deleteUser(input: FindUserInput!): Boolean
 }
 
 #
 # Below is for Pagination
 #
 type UserEdge {
-  node: User!
-  cursor: String!
+    node: User!
+    cursor: String!
 }
 
 type UsersConnection {
-  edges: [UserEdge!]!
-  pageInfo: PageInfo!
-  totalCount: Int!
+    edges: [UserEdge!]!
+    pageInfo: PageInfo!
+    totalCount: Int!
 }

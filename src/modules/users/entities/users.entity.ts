@@ -26,4 +26,6 @@ export class UsersEntity extends ValidationEntity {
   @DeleteDateColumn()
   deletedAt!: Date;
 
+  @Column()
+  title!: string;
 }

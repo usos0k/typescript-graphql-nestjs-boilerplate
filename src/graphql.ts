@@ -45,7 +45,10 @@ export class PageInfo {
 export class User {
     _id: number;
     isDeleted: boolean;
+    title: string;
     createdAt: Date;
+    updatedAt: Date;
+    deletedAt: Date;
 }
 
 export abstract class IQuery {

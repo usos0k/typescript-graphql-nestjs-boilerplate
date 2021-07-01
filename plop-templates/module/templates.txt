@@ -2,7 +2,9 @@ type {{capName}} {
     _id: Int!
     isDeleted: Boolean!
     title: String!
-    createdAt : String!
+    createdAt : Date!
+    updatedAt : Date!
+    deletedAt : Date!
 }
 
 input Find{{capName}}Input {

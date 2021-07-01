@@ -8,7 +8,7 @@ import {
   DB_TYPE,
   DB_USERNAME,
 } from '@/environments';
-import { UserEntity } from '@/modules/users/entities/user.entity';
+import { UsersEntity } from '@/modules/users/entities/users.entity';
 import { Logger } from '@nestjs/common';
 import { createConnection, getMetadataArgsStorage } from 'typeorm';
 
@@ -24,12 +24,7 @@ async function main() {
     entities: getMetadataArgsStorage().tables.map((tbl) => tbl.target),
     dropSchema: true,
   });
-  const password = 'test123!';
-
-  const user = new UserEntity();
-  user.email = `auto-${1}@test.com`;
-  user.name = `auto-${1}name`;
-  user.password = password;
+  const user = new UsersEntity();
 
   await connection.manager.save(user);
   Logger.log('inserted', 'user');

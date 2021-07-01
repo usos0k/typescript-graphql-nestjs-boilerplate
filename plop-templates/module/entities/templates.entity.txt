@@ -26,4 +26,6 @@ export class {{pluralCapName}}Entity extends ValidationEntity {
   @DeleteDateColumn()
   deletedAt!: Date;
 
+  @Column()
+  title!: string;
 }

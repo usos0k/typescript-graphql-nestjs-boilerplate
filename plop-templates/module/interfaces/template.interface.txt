@@ -1,0 +1,3 @@
+import { {{capName}} } from '@/graphql';
+
+export interface {{capName}}RO extends {{capName}} {}
