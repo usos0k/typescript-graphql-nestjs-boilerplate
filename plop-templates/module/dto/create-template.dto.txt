@@ -1,0 +1,4 @@
+import { Create{{capName}}Input } from '@/graphql';
+
+export class Create{{capName}}Dto implements Create{{capName}}Input {
+}

@@ -1,0 +1,104 @@
+import { CursorAtDto, PaginationDto } from '@/common';
+import { Injectable, Logger } from '@nestjs/common';
+import { Create{{capName}}Dto } from './dto/create-{{name}}.dto';
+import { Update{{capName}}Dto } from './dto/update-{{name}}.dto';
+import { Find{{capName}}Dto } from './dto/find-{{name}}.dto';
+import { {{pluralCapName}}Entity } from './entities/{{pluralName}}.entity';
+import { {{pluralCapName}}Repository } from './repositories/{{pluralName}}.repository';
+import { connectionPaginationQueryBuilder } from '@/utils/paginationUtils';
+import {
+  ApolloError,
+  ForbiddenError,
+} from 'apollo-server-core'
+
+@Injectable()
+export class {{pluralCapName}}Service {
+  private logger = new Logger('{{pluralCapName}}Service', true);
+
+  constructor(
+    private readonly {{pluralName}}Repository: {{pluralCapName}}Repository,
+  ) {}
+
+  async find{{capName}}(query: Find{{capName}}Dto): Promise<{{pluralCapName}}Entity | undefined> {
+    this.logger.log('find{{capName}}');
+
+    return await this.{{pluralName}}Repository.findOne({
+      where: query,
+    });
+  }
+
+  async find{{pluralCapName}}({
+    pagination,
+    cursor,
+  }: {
+    pagination: PaginationDto;
+    cursor: CursorAtDto;
+  }): Promise<{ {{pluralName}}: Array<{{pluralCapName}}Entity>; total: number }> {
+    this.logger.log('find{{pluralCapName}}');
+
+    const queryBuilder = connectionPaginationQueryBuilder<{{pluralCapName}}Entity>({
+      pagination,
+      cursorAt: cursor.at,
+      repository: this.{{pluralName}}Repository,
+    });
+
+    const [{{pluralName}}, total] = await queryBuilder.getManyAndCount();
+
+    return { {{pluralName}}, total };
+  }
+
+  async create{{capName}}(data: Create{{capName}}Dto): Promise<{{pluralCapName}}Entity> {
+    this.logger.log('create{{capName}}');
+
+    let {{name}} = await this.{{pluralName}}Repository.create(data);
+    const result = await this.{{pluralName}}Repository.save({{name}});
+
+    return result;
+  }
+
+  async update{{capName}}(
+    query : Find{{capName}}Dto,
+    data: Update{{capName}}Dto,
+  ): Promise<{{pluralCapName}}Entity> {
+    this.logger.log('update{{capName}}');
+
+    try {
+      let {{name}} = await this.{{pluralName}}Repository.findOne({
+        where : query
+      });
+
+      if (!{{name}}) {
+        throw new ForbiddenError('{{capName}} not found.')
+      }
+
+      const update{{capName}} = await this.{{pluralName}}Repository.save({
+        ...{{name}},
+        ...data
+      });
+
+      return update{{capName}};
+    } catch (error) {
+      throw new ApolloError(error)
+    }
+  }
+
+  async delete{{capName}}(query: Find{{capName}}Dto): Promise<boolean> {
+    try {
+      let {{name}} = await this.{{pluralName}}Repository.findOne({
+        where : query
+      });
+
+      if (!{{name}}) {
+        throw new ForbiddenError('{{capName}} not found.')
+      }
+      const deleted{{capName}} = await this.{{pluralName}}Repository.save({
+        ...{{name}},
+        isDeleted: true,
+      });
+
+      return deleted{{capName}} ? true : false;
+    } catch (error) {
+      throw new ApolloError(error)
+    }
+  }
+}

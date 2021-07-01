@@ -1,0 +1,6 @@
+import { Update{{capName}}Input } from '@/graphql';
+
+export class Update{{capName}}Dto implements Update{{capName}}Input {
+  isDeleted?: boolean;
+  title?: string;
+}

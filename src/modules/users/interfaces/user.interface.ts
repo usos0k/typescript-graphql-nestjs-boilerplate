@@ -1,12 +1,3 @@
-import { User, UsersPaginationCursorAt } from '@/graphql';
+import { User } from '@/graphql';
 
-export interface UserRO extends User {
-  token?: string;
-}
-
-export const usersPaginationCursorAtMap: {
-  [key in UsersPaginationCursorAt]: string;
-} = {
-  ID: 'admin_id',
-  CREATED_AT: 'created_at',
-};
+export interface UserRO extends User {}

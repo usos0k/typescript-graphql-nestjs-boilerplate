@@ -37,9 +37,18 @@ async function bootstrap() {
 
     // Connect Database
     const connection = getConnection('default');
-    const { isConnected } = connection;
+    const { isConnected, options } = connection;
+    const connectionData = JSON.parse(JSON.stringify(options));
     isConnected
-      ? Logger.log('Database connected', 'TypeORM', false)
+      ? Logger.log(
+          `🚀  Database Connected : ${chalk
+            .hex(PRIMARY_COLOR!)
+            .bold(
+              `${connectionData.type!}/${connectionData.host!}/${connectionData.port!}/${connectionData.database!}`,
+            )}`,
+          'TypeORM',
+          false,
+        )
       : Logger.error('Database connect error', '', 'TypeORM', false);
 
     //  Tasks
@@ -88,9 +97,9 @@ async function bootstrap() {
 
     await app.listen(PORT);
     Logger.log(
-      `🚀  Server ready at http://${DOMAIN!}:${chalk
+      `🚀  Server ready at ${chalk
         .hex(PRIMARY_COLOR!)
-        .bold(`${PORT!}`)}/${END_POINT!}`,
+        .bold(`http://${DOMAIN!}:${PORT!}/${END_POINT!}`)}`,
       'Bootstrap',
       false,
     );

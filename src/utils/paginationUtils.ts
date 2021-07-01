@@ -19,8 +19,10 @@ export const convertListDataToConnectionPagination = <T>({
   }));
 
   const pageInfo: PageInfo = {
-    endCursor: list[list.length - 1][cursorAt],
-    startCursor: list[0][cursorAt],
+    endCursor: list[list.length - 1]
+      ? `${list[list.length - 1][cursorAt]}`
+      : `0`,
+    startCursor: list.length ? `${list[0][cursorAt]}` : `0`,
     hasNextPage: false,
     hasPreviousPage: false,
   };
@@ -47,37 +49,42 @@ export const connectionPaginationQueryBuilder = <Entity>({
   pagination,
   cursorAt,
   repository,
+  where,
 }: {
   pagination: PaginationInput;
   cursorAt: string;
   repository: Repository<Entity>;
+  where?: object;
 }): SelectQueryBuilder<Entity> => {
   const { after, last, before, first } = pagination;
 
   const queryAlias = 'ALIAS';
-  let queryBuilder = repository
-    .createQueryBuilder(queryAlias)
-    .orderBy(cursorAt, 'DESC');
+  let queryBuilder = repository.createQueryBuilder(queryAlias);
+  // Be careful using where parameter
+  if (where) {
+    queryBuilder = Object.keys(where).reduce((acc, k) => {
+      return acc.andWhere(`${queryAlias}.${k} = '${where[k]}'`);
+    }, queryBuilder);
+  }
 
   if (after) {
     queryBuilder = queryBuilder.andWhere(
-      `${queryAlias}.${cursorAt} < ${after}`,
+      `${queryAlias}.${cursorAt} > '${after}'`,
     );
   }
   if (before) {
     queryBuilder = queryBuilder.andWhere(
-      `${queryAlias}.${cursorAt} > ${before}`,
+      `${queryAlias}.${cursorAt} < '${before}'`,
     );
   }
-  if (first) {
-    queryBuilder.limit(first > MAX_QUERY_SIZE ? MAX_QUERY_SIZE : first);
-  } else if (last) {
+  if (first || first === 0) {
+    queryBuilder.take(first > MAX_QUERY_SIZE ? MAX_QUERY_SIZE : first);
+  } else if (last || last === 0) {
     queryBuilder
-      .orderBy('ASC')
-      .limit(last > MAX_QUERY_SIZE ? MAX_QUERY_SIZE : last)
-      .orderBy('DESC');
+      .orderBy(`${queryAlias}.${cursorAt}`, 'DESC')
+      .take(last > MAX_QUERY_SIZE ? MAX_QUERY_SIZE : last);
   } else {
-    queryBuilder.limit(MAX_QUERY_SIZE);
+    queryBuilder.take(MAX_QUERY_SIZE);
   }
 
   return queryBuilder;

@@ -1,0 +1,85 @@
+import {
+  Find{{capName}}Input,
+  Create{{capName}}Input,
+  Update{{capName}}Input,
+  {{pluralCapName}}Connection,
+} from '@/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Find{{capName}}Dto } from './dto/find-{{name}}.dto';
+import { {{capName}}Entity } from './entities/{{name}}.entity';
+import { {{pluralCapName}}Service } from './{{pluralName}}.service';
+import { Logger } from '@nestjs/common';
+import { CursorAtDto, CursorAtValidationPipe, PaginationDto, PaginationValidationPipe } from '@/common';
+import { convertListDataToConnectionPagination } from '@/utils/paginationUtils';
+import { {{capName}}RO } from '@/modules/{{pluralName}}/interfaces/{{name}}.interface';
+
+
+@Resolver('{{capName}}')
+export class {{pluralCapName}}Resolver {
+  private logger = new Logger('{{pluralCapName}}Resolver', true);
+
+  constructor(
+    private {{pluralName}}Service: {{pluralCapName}}Service
+  ) {}
+
+  @Query('{{name}}')
+  async get{{capName}}(
+    @Args('input') input: Find{{capName}}Input,
+  ): Promise<{{capName}}Entity | undefined> {
+    this.logger.log('get{{capName}}');
+    const query = new Find{{capName}}Dto(input);
+    return this.{{pluralName}}Service.find{{capName}}(query);
+  }
+
+  @Query('{{pluralName}}')
+  async get{{pluralCapName}}(
+    @Args('pagination', PaginationValidationPipe) pagination: PaginationDto,
+    @Args('cursorAt', CursorAtValidationPipe) cursor: CursorAtDto,
+  ): Promise<{{pluralCapName}}Connection | null> {
+    this.logger.log('get{{pluralCapName}}');
+
+    const { {{pluralName}}, total } = await this.{{pluralName}}Service.find{{pluralCapName}}({
+      pagination,
+      cursor,
+    });
+
+    return convertListDataToConnectionPagination<{{capName}}RO>({
+      list: {{pluralName}}.map(({{name}}) => {{name}}),
+      total,
+      cursorAt: cursor.at,
+      pagination,
+    });
+  }
+
+  @Mutation('create{{capName}}')
+  async create{{capName}}(
+    @Args('input') data: Create{{capName}}Input,
+  ): Promise<{{capName}}Entity> {
+    this.logger.log('create{{capName}}');
+
+    return this.{{pluralName}}Service.create{{capName}}(data);
+  }
+
+  @Mutation('update{{capName}}')
+  async update{{capName}}(
+    @Args('_id') _id: string,
+    @Args('input') data: Update{{capName}}Input,
+  ): Promise<{{capName}}Entity> {
+    this.logger.log('update{{capName}}');
+
+    const query = new Find{{capName}}Dto({_id : _id});
+
+    return this.{{pluralName}}Service.update{{capName}}(query, data);
+  }
+
+  @Mutation('delete{{capName}}')
+  async delete{{capName}}(
+    @Args('input') input: Find{{capName}}Input
+  ): Promise<boolean> {
+    this.logger.log('delete{{capName}}');
+
+    const query = new Find{{capName}}Dto(input);
+
+    return this.{{pluralName}}Service.delete{{capName}}(query);
+  }
+}

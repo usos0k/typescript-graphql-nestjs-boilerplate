@@ -1,55 +1,104 @@
-import { connectionPaginationQueryBuilder } from '@/utils';
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-
+import { CursorAtDto, PaginationDto } from '@/common';
+import { Injectable, Logger } from '@nestjs/common';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { FindUserDto } from './dto/find-user.dto';
+import { UsersEntity } from './entities/users.entity';
+import { UsersRepository } from './repositories/users.repository';
+import { connectionPaginationQueryBuilder } from '@/utils/paginationUtils';
 import {
-  CreateUserDto,
-  FindUserDto,
-  FindUsersCursorAtDto,
-  FindUsersPaginationDto,
-} from './dto';
-import { UserEntity } from './entities';
-import { UserRepository } from './repositories';
+  ApolloError,
+  ForbiddenError,
+} from 'apollo-server-core'
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly userRepository: UserRepository) {}
+  private logger = new Logger('UsersService', true);
 
-  async findUser(query: FindUserDto): Promise<UserEntity> {
-    const user = await this.userRepository.findOne({
+  constructor(
+    private readonly usersRepository: UsersRepository,
+  ) {}
+
+  async findUser(query: FindUserDto): Promise<UsersEntity | undefined> {
+    this.logger.log('findUser');
+
+    return await this.usersRepository.findOne({
       where: query,
     });
-
-    if (!user) return null;
-    return user;
   }
 
   async findUsers({
     pagination,
     cursor,
   }: {
-    pagination: FindUsersPaginationDto;
-    cursor: FindUsersCursorAtDto;
-  }): Promise<{ users: Array<UserEntity>; total: number }> {
-    const queryBuilder = connectionPaginationQueryBuilder<UserEntity>({
+    pagination: PaginationDto;
+    cursor: CursorAtDto;
+  }): Promise<{ users: Array<UsersEntity>; total: number }> {
+    this.logger.log('findUsers');
+
+    const queryBuilder = connectionPaginationQueryBuilder<UsersEntity>({
       pagination,
       cursorAt: cursor.at,
-      repository: this.userRepository,
+      repository: this.usersRepository,
     });
 
     const [users, total] = await queryBuilder.getManyAndCount();
+
     return { users, total };
   }
 
-  async register(data: CreateUserDto): Promise<UserEntity> {
-    const { email } = data;
-    let user = await this.userRepository.findOne({ where: { email } });
+  async createUser(data: CreateUserDto): Promise<UsersEntity> {
+    this.logger.log('createUser');
 
-    if (user) {
-      throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
+    let user = await this.usersRepository.create(data);
+    const result = await this.usersRepository.save(user);
+
+    return result;
+  }
+
+  async updateUser(
+    query : FindUserDto,
+    data: UpdateUserDto,
+  ): Promise<UsersEntity> {
+    this.logger.log('updateUser');
+
+    try {
+      let user = await this.usersRepository.findOne({
+        where : query
+      });
+
+      if (!user) {
+        throw new ForbiddenError('User not found.')
+      }
+
+      const updateUser = await this.usersRepository.save({
+        ...user,
+        ...data
+      });
+
+      return updateUser;
+    } catch (error) {
+      throw new ApolloError(error)
     }
+  }
 
-    user = await this.userRepository.create(data);
-    await this.userRepository.save(user);
-    return user;
+  async deleteUser(query: FindUserDto): Promise<boolean> {
+    try {
+      let user = await this.usersRepository.findOne({
+        where : query
+      });
+
+      if (!user) {
+        throw new ForbiddenError('User not found.')
+      }
+      const deletedUser = await this.usersRepository.save({
+        ...user,
+        isDeleted: true,
+      });
+
+      return deletedUser ? true : false;
+    } catch (error) {
+      throw new ApolloError(error)
+    }
   }
 }

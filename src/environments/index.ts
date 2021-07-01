@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import { createNoSubstitutionTemplateLiteral } from 'typescript';
 
 const env = {
   development: 'dev',
@@ -11,6 +12,9 @@ dotenv.config({ path: `.env.${env}` });
 
 // environment
 export const NODE_ENV: string = process.env.NODE_ENV || 'development';
+
+// author
+export const AUTHOR: string = process.env.AUTHOR || '';
 
 // application
 export const HTTP: string = process.env.HTTP || 'http';
@@ -46,6 +50,11 @@ export const RESETPASS_TOKEN: string =
 export const RESETPASS_TOKEN_SECRET: string =
   process.env.RESETPASS_TOKEN_SECRET || 'resetpass-token-key';
 
+export const AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID || '';
+export const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY || '';
+export const AWS_REGION = process.env.AWS_REGION || '';
+export const AWS_BUCKET = process.env.AWS_BUCKET || '';
+
 // Query
 export const MAX_QUERY_SIZE = 10;
 
@@ -54,3 +63,18 @@ export const BCRYPT_SALT: number = +`${process.env.BCRYPT_SALT}` || 10;
 
 // ETC
 export const LOG_PRIMARY_COLOR: string = process.env.PRIMARY_COLOR || '#87e8de';
+
+// nodemailer
+export const NODEMAILER_USER: string = process.env.NODEMAILER_USER || 'xxx';
+export const NODEMAILER_PASS: string = process.env.NODEMAILER_PASS || 'xxx';
+
+// Client
+export const CLIENT_HTTP: string = process.env.CLIENT_HTTP || 'http';
+export const CLIENT_URL: string = process.env.CLIENT_URL || 'localhost';
+export const CLIENT_PORT: string = process.env.CLIENT_PORT || '3000';
+export const CLIENT_WHOLESALER_HTTP: string =
+  process.env.CLIENT_WHOLESALER_HTTP || 'http';
+export const CLIENT_WHOLESALER_URL: string =
+  process.env.CLIENT_WHOLESALER_URL || 'localhost';
+export const CLIENT_WHOLESALER_PORT: string =
+  process.env.CLIENT_WHOLESALER_PORT || '3000';

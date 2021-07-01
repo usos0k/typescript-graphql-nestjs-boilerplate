@@ -1,0 +1,9 @@
+import { Find{{capName}}Input } from '@/graphql';
+
+export class Find{{capName}}Dto implements Find{{capName}}Input {
+  _id?: string;
+
+  constructor(find{{capName}}Input: Find{{capName}}Input) {
+    Object.assign(this, find{{capName}}Input);
+  }
+}

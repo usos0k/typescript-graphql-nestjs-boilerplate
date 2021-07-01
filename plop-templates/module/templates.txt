@@ -1,0 +1,60 @@
+type {{capName}} {
+    _id: Int!
+    isDeleted: Boolean!
+    title: String!
+    createdAt : String!
+}
+
+input Find{{capName}}Input {
+    _id: ID
+}
+
+input Find{{pluralCapName}}Input {
+    title: String
+}
+
+input Create{{capName}}Input {
+    title: String!
+}
+
+input Update{{capName}}Input {
+    isDeleted: Boolean
+    title: String
+}
+
+type Query {
+    {{name}}(input: Find{{capName}}Input): {{capName}}
+    {{pluralName}}(
+        pagination: PaginationInput
+        cursorAt: PaginationCursorAt
+    ): {{pluralCapName}}Connection
+
+}
+
+type Mutation {
+
+    create{{capName}}(
+        input: Create{{capName}}Input!
+    ): {{capName}}
+
+    update{{capName}}(
+        _id: ID!
+        input: Update{{capName}}Input!
+    ): {{capName}}
+
+    delete{{capName}}(input: Find{{capName}}Input!): Boolean
+}
+
+#
+# Below is for Pagination
+#
+type {{capName}}Edge {
+    node: {{capName}}!
+    cursor: String!
+}
+
+type {{pluralCapName}}Connection {
+    edges: [{{capName}}Edge!]!
+    pageInfo: PageInfo!
+    totalCount: Int!
+}
