@@ -19,7 +19,7 @@ module.exports = function(plop) {
             actions.push({
                     type: 'add',
                     path: 'src/modules/' + pluralize(data.name) + '/index.ts',
-                    templateFile: 'plop-templates/module/index.txt',
+                    templateFile: 'src/utils/plop/module/index.txt',
                     data: {
                         name: data.name,
                         pluralName: pluralize(data.name),
@@ -28,7 +28,7 @@ module.exports = function(plop) {
                 }, {
                     type: 'add',
                     path: 'src/modules/' + pluralize(data.name) + '/' + pluralize(data.name) + '.graphql',
-                    templateFile: 'plop-templates/module/templates.txt',
+                    templateFile: 'src/utils/plop/module/templates.txt',
                     data: {
                         name: data.name,
                         capName: capitalizeFirstLetter(data.name),
@@ -38,7 +38,7 @@ module.exports = function(plop) {
                 }, {
                     type: 'add',
                     path: 'src/modules/' + pluralize(data.name) + '/' + pluralize(data.name) + '.module.ts',
-                    templateFile: 'plop-templates/module/templates.module.txt',
+                    templateFile: 'src/utils/plop/module/templates.module.txt',
                     data: {
                         name: data.name,
                         capName: capitalizeFirstLetter(data.name),
@@ -48,7 +48,7 @@ module.exports = function(plop) {
                 }, {
                     type: 'add',
                     path: 'src/modules/' + pluralize(data.name) + '/' + pluralize(data.name) + '.service.ts',
-                    templateFile: 'plop-templates/module/templates.service.txt',
+                    templateFile: 'src/utils/plop/module/templates.service.txt',
                     data: {
                         name: data.name,
                         capName: capitalizeFirstLetter(data.name),
@@ -58,7 +58,7 @@ module.exports = function(plop) {
                 }, {
                     type: 'add',
                     path: 'src/modules/' + pluralize(data.name) + '/' + pluralize(data.name) + '.resolver.ts',
-                    templateFile: 'plop-templates/module/templates.resolver.txt',
+                    templateFile: 'src/utils/plop/module/templates.resolver.txt',
                     data: {
                         name: data.name,
                         capName: capitalizeFirstLetter(data.name),
@@ -68,7 +68,7 @@ module.exports = function(plop) {
                 }, {
                     type: 'add',
                     path: 'src/modules/' + pluralize(data.name) + '/repositories/' + pluralize(data.name) + '.repository.ts',
-                    templateFile: 'plop-templates/module/repositories/templates.repository.txt',
+                    templateFile: 'src/utils/plop/module/repositories/templates.repository.txt',
                     data: {
                         name: data.name,
                         capName: capitalizeFirstLetter(data.name),
@@ -82,7 +82,7 @@ module.exports = function(plop) {
                         '/interfaces/' +
                         data.name +
                         '.interface.ts',
-                    templateFile: 'plop-templates/module/interfaces/template.interface.txt',
+                    templateFile: 'src/utils/plop/module/interfaces/template.interface.txt',
                     data: {
                         name: data.name,
                         capName: capitalizeFirstLetter(data.name),
@@ -92,7 +92,7 @@ module.exports = function(plop) {
                 }, {
                     type: 'add',
                     path: 'src/modules/' + pluralize(data.name) + '/interfaces/' + 'index.ts',
-                    templateFile: 'plop-templates/module/interfaces/index.txt',
+                    templateFile: 'src/utils/plop/module/interfaces/index.txt',
                     data: {
                         name: data.name,
                         capName: capitalizeFirstLetter(data.name),
@@ -104,7 +104,7 @@ module.exports = function(plop) {
                 {
                     type: 'add',
                     path: 'src/modules/' + pluralize(data.name) + '/entities/' + pluralize(data.name) + '.entity.ts',
-                    templateFile: 'plop-templates/module/entities/templates.entity.txt',
+                    templateFile: 'src/utils/plop/module/entities/templates.entity.txt',
                     data: {
                         name: data.name,
                         capName: capitalizeFirstLetter(data.name),
@@ -114,7 +114,7 @@ module.exports = function(plop) {
                 }, {
                     type: 'add',
                     path: 'src/modules/' + pluralize(data.name) + '/dto/create-' + data.name + '.dto.ts',
-                    templateFile: 'plop-templates/module/dto/create-template.dto.txt',
+                    templateFile: 'src/utils/plop/module/dto/create-template.dto.txt',
                     data: {
                         name: data.name,
                         capName: capitalizeFirstLetter(data.name),
@@ -128,7 +128,7 @@ module.exports = function(plop) {
                         '/dto/update-' +
                         data.name +
                         '.dto.ts',
-                    templateFile: 'plop-templates/module/dto/update-template.dto.txt',
+                    templateFile: 'src/utils/plop/module/dto/update-template.dto.txt',
                     data: {
                         name: data.name,
                         capName: capitalizeFirstLetter(data.name),
@@ -140,7 +140,7 @@ module.exports = function(plop) {
                 {
                     type: 'add',
                     path: 'src/modules/' + pluralize(data.name) + '/dto/find-' + data.name + '.dto.ts',
-                    templateFile: 'plop-templates/module/dto/find-template.dto.txt',
+                    templateFile: 'src/utils/plop/module/dto/find-template.dto.txt',
                     data: {
                         name: data.name,
                         capName: capitalizeFirstLetter(data.name),
