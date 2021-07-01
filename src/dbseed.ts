@@ -1,38 +1,43 @@
-// import 'reflect-metadata';
+import 'reflect-metadata';
 
-// import { createConnection, getMetadataArgsStorage } from 'typeorm';
+import {
+  DB_HOST,
+  DB_NAME,
+  DB_PASSWORD,
+  DB_PORT,
+  DB_TYPE,
+  DB_USERNAME,
+} from '@/environments';
+import { UserEntity } from '@/modules/users/entities/user.entity';
+import { Logger } from '@nestjs/common';
+import { createConnection, getMetadataArgsStorage } from 'typeorm';
 
-// import { User } from './models';
+async function main() {
+  const connection = await createConnection({
+    type: DB_TYPE,
+    host: DB_HOST,
+    port: DB_PORT,
+    username: DB_USERNAME,
+    password: DB_PASSWORD,
+    database: DB_NAME,
+    synchronize: true,
+    entities: getMetadataArgsStorage().tables.map((tbl) => tbl.target),
+    dropSchema: true,
+  });
+  const password = 'test123!';
 
-// async function main() {
-//   const connection = await createConnection({
-//     type: 'mysql',
-//     host: 'localhost',
-//     port: 3306,
-//     username: 'ggomma',
-//     password: 'test',
-//     database: 'test',
-//     synchronize: true,
-//     entities: getMetadataArgsStorage().tables.map((tbl) => tbl.target),
-//   });
+  const user = new UserEntity();
+  user.email = `auto-${1}@test.com`;
+  user.name = `auto-${1}name`;
+  user.password = password;
 
-//   const user1 = new User({
-//     email: 'test1@test.com',
-//     password: 'test123',
-//     name: 'test1',
-//   });
-//   const user2 = new User({
-//     email: 'test2@test.com',
-//     password: 'test123',
-//     name: 'test2',
-//   });
+  await connection.manager.save(user);
+  Logger.log('inserted', 'user');
 
-//   await connection.manager.save(user1);
-//   await connection.manager.save(user2);
-//   process.exit(0);
-// }
+  process.exit(0);
+}
 
-// main().catch((e) => {
-//   console.error(e);
-//   process.exit(1);
-// });
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

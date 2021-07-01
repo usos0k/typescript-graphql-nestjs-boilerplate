@@ -25,11 +25,13 @@ export const FE_URL: string = process.env.FE_URL || 'xxx';
 export const RATE_LIMIT_MAX: number = +`${process.env.RATE_LIMIT_MAX}` || 10000;
 
 // DB
-export const MYSQL_HOST: string = process.env.MYSQL_HOST || 'localhost';
-export const MYSQL_PORT: number = +`${process.env.MYSQL_PORT}` || 3306;
-export const MYSQL_DB: string = process.env.MYSQL_DB || '';
-export const MYSQL_USERNAME: string = process.env.MYSQL_USERNAME || '';
-export const MYSQL_PASSWORD: string = process.env.MYSQL_PASSWORD || '';
+type DB_TYPE = 'mysql' | 'mongodb';
+export const DB_TYPE: DB_TYPE = <DB_TYPE>process.env.DB_TYPE || 'mysql';
+export const DB_HOST: string = process.env.DB_HOST || 'localhost';
+export const DB_PORT: number = +`${process.env.DB_PORT}` || 3306;
+export const DB_NAME: string = process.env.DB_NAME || '';
+export const DB_USERNAME: string = process.env.DB_USERNAME || '';
+export const DB_PASSWORD: string = process.env.DB_PASSWORD || '';
 
 // jsonwebtoken
 export const ISSUER: string = process.env.ISSUER || 'SKELETON';

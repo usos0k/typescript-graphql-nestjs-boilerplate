@@ -7,6 +7,7 @@ import {
   BeforeInsert,
   Column,
   Entity,
+  ObjectIdColumn,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -14,8 +15,8 @@ import { UserRO } from '../interfaces';
 
 @Entity('users')
 export class UserEntity extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  readonly id!: number;
+  @ObjectIdColumn()
+  _id: string;
 
   @Column()
   @IsEmail()
@@ -46,7 +47,7 @@ export class UserEntity extends BaseEntity {
   toResponseObject(showToken = true): UserRO {
     const responseObject: UserRO = {
       ...this,
-      id: `${this.id}`,
+      id: `${this._id}`,
       token: undefined,
     };
 
@@ -57,7 +58,7 @@ export class UserEntity extends BaseEntity {
 
   private get token(): string {
     return generateToken({
-      id: `${this.id}`,
+      id: `${this._id}`,
       type: 'accessToken',
     });
   }

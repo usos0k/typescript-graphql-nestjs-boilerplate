@@ -7,11 +7,13 @@ import {
   LoggingInterceptor,
   TimeoutInterceptor,
 } from '@/common';
-import {   DOMAIN,
+import {
+  DOMAIN,
   END_POINT,
   PORT,
   PRIMARY_COLOR,
-  RATE_LIMIT_MAX, } from '@/environments';
+  RATE_LIMIT_MAX,
+} from '@/environments';
 import { cron } from '@/utils';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';

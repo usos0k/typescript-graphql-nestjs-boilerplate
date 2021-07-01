@@ -1,16 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 import { getMetadataArgsStorage } from 'typeorm';
-import config from '../../config.orm';
 
+import config from '../../config.orm';
 
 @Injectable()
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
-
   createTypeOrmOptions(): Promise<TypeOrmModuleOptions> {
     const options = {
       ...config,
-      type: 'mysql',
       synchronize: true,
       autoLoadEntities: true,
       keepConnectionAlive: true,
@@ -18,5 +16,4 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
     };
     return options;
   }
-
 }
