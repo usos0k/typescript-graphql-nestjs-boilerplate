@@ -8,7 +8,6 @@ import {
   Column,
   Entity,
   ObjectIdColumn,
-  PrimaryGeneratedColumn,
 } from 'typeorm';
 
 import { UserRO } from '../interfaces';
